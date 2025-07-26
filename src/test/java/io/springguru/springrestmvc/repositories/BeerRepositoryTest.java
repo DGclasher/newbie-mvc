@@ -3,16 +3,13 @@ package io.springguru.springrestmvc.repositories;
 import io.springguru.springrestmvc.bootstrap.BootstrapData;
 import io.springguru.springrestmvc.entities.Beer;
 import io.springguru.springrestmvc.model.BeerStyle;
-import io.springguru.springrestmvc.services.BeerCsvService;
 import io.springguru.springrestmvc.services.BeerCsvServiceImpl;
-import io.springguru.springrestmvc.services.BeerServiceImpl;
 import jakarta.validation.ConstraintViolationException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,14 +25,14 @@ class BeerRepositoryTest {
 
     @Test
     void testListBeerByName() {
-        List<Beer> list = beerRepository.findAllByBeerNameIsLikeIgnoreCase("%IPA%");
-        assertThat(list.size()).isEqualTo(336);
+        Page<Beer> list = beerRepository.findAllByBeerNameIsLikeIgnoreCase("%IPA%", null);
+        assertThat(list.getContent().size()).isEqualTo(336);
     }
 
     @Test
     void testListBeerByStyle() {
-        List<Beer> list = beerRepository.findAllByBeerStyle(BeerStyle.IPA);
-        assertThat(list.size()).isEqualTo(548);
+        Page<Beer> list = beerRepository.findAllByBeerStyle(BeerStyle.IPA, null);
+        assertThat(list.getContent().size()).isEqualTo(548);
     }
 
     @Test
